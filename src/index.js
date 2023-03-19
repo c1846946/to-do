@@ -195,6 +195,14 @@ const ScreenController = () => {
           //append expand arrow
         }
       });
+      //add add task button
+      const addTaskButton = document.createElement('button');
+      addTaskButton.classList.add('add-task-button');
+      addTaskButton.innerText = '+';
+      taskContainer.appendChild(addTaskButton);
+      addTaskButton.addEventListener('click', () => {
+        console.log('add a task');
+      });
     };
 
     //what list(s) to create
