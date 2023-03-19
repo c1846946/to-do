@@ -57,6 +57,21 @@ const ScreenController = () => {
     container.classList.add('container');
     main.appendChild(container);
 
+    const expandTask = (e) => {
+      //select .expand div in same .task container
+      const expand = e.target.closest('.task').querySelector('.expand');
+      //remove .active from all other .expand divs
+      const allExpands = document.querySelectorAll('.expand');
+      allExpands.forEach((x) => x.classList.remove('active'));
+      //add .active to selected .task descendant
+      expand.classList.add('active');
+    };
+
+    const collapseTask = () => {
+      const allExpands = document.querySelectorAll('.expand');
+      allExpands.forEach((x) => x.classList.remove('active'));
+    };
+
     const clickTask = (e) => {
       if (e.target.classList.contains('delete-div')) {
         //add key/value remove:true
@@ -64,14 +79,23 @@ const ScreenController = () => {
         //add key value
         tList.find((x) => x.taskId == e.target.dataset.taskId).remove = true;
         //remove task from DOM
-        const taskToRemove = document.querySelectorAll(
-          `.task[data-task-id='${e.target.dataset.taskId}']`
-        );
+        // const taskToRemove = document.querySelectorAll(
+        //   `.task[data-task-id='${e.target.dataset.taskId}']`
+        // );
         resetMain(selection);
       } else if (e.target.classList.contains('checkbox')) {
         console.log('contains checkbox');
+      } else if (
+        e.target
+          .closest('.task')
+          .querySelector('.expand')
+          .classList.contains('active')
+      ) {
+        console.log('active task');
+        collapseTask(e);
       } else {
-        console.log('expand');
+        //if tasks expand is active, remove active class and return
+        expandTask(e);
       }
     };
 
@@ -79,12 +103,9 @@ const ScreenController = () => {
       const taskMin = document.createElement('div');
       taskMin.classList.add('task-min');
       task.appendChild(taskMin);
-      const checkboxLabel = document.createElement('div');
-      checkboxLabel.classList.add('checkbox-label');
-      taskMin.appendChild(checkboxLabel);
 
       const checkbox = document.createElement('input');
-      checkboxLabel.appendChild(checkbox);
+      taskMin.appendChild(checkbox);
       checkbox.type = 'checkbox';
       checkbox.name = z.action;
       checkbox.id = z.action;
@@ -105,21 +126,30 @@ const ScreenController = () => {
         }
       });
 
+      const taskContent = document.createElement('div');
+      taskContent.classList.add('task-content');
+      taskMin.appendChild(taskContent);
+
       const taskName = document.createElement('div');
       taskName.classList.add('task-name');
       taskName.innerText = z.action;
-      checkboxLabel.appendChild(taskName);
-      //
-      //task.textContent = z.action;
-      //
+      taskContent.appendChild(taskName);
+
       const deleteDiv = document.createElement('button');
       deleteDiv.classList.add('delete-div');
       deleteDiv.setAttribute('data-task-id', z.taskId);
       deleteDiv.innerText = 'x';
-      taskMin.appendChild(deleteDiv);
+      taskContent.appendChild(deleteDiv);
       //
+      const expand = document.createElement('div');
+      expand.classList.add('expand');
+      task.appendChild(expand);
+
       const desc = document.createElement('div');
       desc.classList.add('desc');
+      desc.innerText = z.desc;
+      expand.appendChild(desc);
+      //expand.addEventListener('click', collapseTask);
     };
 
     const createTaskList = (p) => {
@@ -173,6 +203,11 @@ const ScreenController = () => {
     all.innerText = allProjectsText;
     sidebar.appendChild(all);
     all.addEventListener('click', selectProject);
+
+    const instr = document.createElement('div');
+    instr.classList.add('instr');
+    instr.innerText = 'Instructions \n-tap task to expand or collapse';
+    sidebar.appendChild(instr);
   };
 
   projectSidebar();
