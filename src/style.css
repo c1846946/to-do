@@ -32,16 +32,22 @@ html {
 }
 
 .task-min{
-  font-size: 12px;
-  padding: 4px 0px 4px 0px;
-  display: flex;
   
+  padding: 8px 0px 8px 0px;
+  display: flex;
+  align-items: start;
+}
+
+.task-name-date{
+  margin-left: 12px;
+}
+
+.checkbox {
+  margin: 5px 0px 0px 0px;
 }
 
 .task-name {
   flex-basis: 1;
-  margin-left: 6px;
-  
 }
 
 .task-content {
@@ -49,8 +55,20 @@ html {
   align-items: center;
   justify-content: space-between;
   flex-grow: 1;
-  
-  
+}
+
+.date-div {
+  font-size: 13px;
+  color: rgb(102, 101, 101);
+}
+
+.priority-delete {
+  display: flex;
+  gap: 12px;
+}
+
+.priority-div{
+  font-size: 14px;
 }
 
 .expand {

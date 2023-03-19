@@ -15,7 +15,7 @@ ToDoFactory(
   'home',
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
   '03/11/1980',
-  'priority3'
+  'high priority'
 );
 ToDoFactory('Buy shop towels', 'Hardware Store');
 ToDoFactory('Sweep the floor', 'home');
@@ -130,16 +130,34 @@ const ScreenController = () => {
       taskContent.classList.add('task-content');
       taskMin.appendChild(taskContent);
 
+      const taskNameDate = document.createElement('div');
+      taskNameDate.classList.add('task-name-date');
+      taskContent.appendChild(taskNameDate);
+
       const taskName = document.createElement('div');
       taskName.classList.add('task-name');
       taskName.innerText = z.action;
-      taskContent.appendChild(taskName);
+      taskNameDate.appendChild(taskName);
+
+      const dateDiv = document.createElement('div');
+      dateDiv.classList.add('date-div');
+      dateDiv.innerText = z.date;
+      taskNameDate.appendChild(dateDiv);
+
+      const priorityDelete = document.createElement('div');
+      priorityDelete.classList.add('priority-delete');
+      taskContent.appendChild(priorityDelete);
+
+      const priorityDiv = document.createElement('div');
+      priorityDiv.classList.add('priority-div');
+      priorityDiv.innerText = z.priority;
+      priorityDelete.appendChild(priorityDiv);
 
       const deleteDiv = document.createElement('button');
       deleteDiv.classList.add('delete-div');
       deleteDiv.setAttribute('data-task-id', z.taskId);
       deleteDiv.innerText = 'x';
-      taskContent.appendChild(deleteDiv);
+      priorityDelete.appendChild(deleteDiv);
       //
       const expand = document.createElement('div');
       expand.classList.add('expand');
