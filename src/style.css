@@ -27,10 +27,12 @@ html {
 
 .p-heading {
   font-weight: bold;
+  
+  
 }
 
 .task-min{
-  font-size: 10px;
+  font-size: 12px;
   padding: 4px 0px 4px 0px;
   display: flex;
   justify-content: space-between;
@@ -47,19 +49,41 @@ html {
 }
 
 .task-container {
-  margin: 12px 12px 12px 0px;
+  margin: 12px 0px 12px 0px;
+  max-width: 650px;
+  
+  
+  
+}
+
+.task {
+  margin: 6px 0px 6px 0px
+  
 }
 
 .main {
   margin-left: 10px;
-  flex-grow: 1;
+  
   padding-top: 20px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-right: 20px;
+  max-width: 650px;
 }
 
 .sidebar {
   background-color: rgb(204, 198, 198);
   height:100vh;
   flex-basis: 25%;
+  max-width: 320px;
   margin-right: 12px;
  display: flex;
  flex-direction: column;

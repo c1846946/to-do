@@ -52,6 +52,10 @@ const ScreenController = () => {
     const main = document.createElement('div');
     main.classList.add('main');
     content.appendChild(main);
+    //create container to help with page layout
+    const container = document.createElement('div');
+    container.classList.add('container');
+    main.appendChild(container);
 
     const clickTask = (e) => {
       if (e.target.classList.contains('delete-div')) {
@@ -122,11 +126,11 @@ const ScreenController = () => {
       const pHeading = document.createElement('div');
       pHeading.classList.add('p-heading');
       pHeading.textContent = p;
-      main.appendChild(pHeading);
+      container.appendChild(pHeading);
       //create task-container div
       const taskContainer = document.createElement('div');
       taskContainer.classList.add('task-container');
-      main.appendChild(taskContainer);
+      container.appendChild(taskContainer);
       //filter tasks by project selection
       const tasks = tList.filter((x) => x.project == p);
       //append tasks for this project
