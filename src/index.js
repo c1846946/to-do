@@ -345,7 +345,10 @@ const ScreenController = () => {
       taskSubmit.innerText = 'Add';
       taskSubmit.id = 'submit';
       popup.appendChild(taskSubmit);
-      taskSubmit.addEventListener('click', addTask);
+      taskSubmit.addEventListener('click', () => {
+        addTask();
+        removePopup();
+      });
     };
 
     //what list(s) to create
