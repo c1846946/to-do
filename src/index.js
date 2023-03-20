@@ -8,6 +8,7 @@ ProjectFactory('home');
 ProjectFactory('Hardware Store');
 ProjectFactory('test');
 ProjectFactory('butterf;y');
+ProjectFactory('Misc');
 
 ToDoFactory('test action', 'test');
 ToDoFactory(
@@ -203,37 +204,111 @@ const ScreenController = () => {
       addTaskButton.addEventListener('click', () => {
         console.log('add a task');
       });
-      //add task add popup
 
+      //add task add popup
       const popup = document.createElement('div');
       popup.classList.add('popup');
       popup.setAttribute('id', 'myForm');
       taskContainer.appendChild(popup);
+
       const taskForm = document.createElement('form');
-      //taskForm.action =
       taskForm.classList.add('form-container');
       popup.appendChild(taskForm);
-      // const taskLabel = document.createElement('label');
-      // taskLabel.for = 'task';
-      // taskLabel.innerText = 'Task';
-      //popup.appendChild(taskLabel);
+
+      const taskLabel = document.createElement('label');
+      taskLabel.for = 'task';
+      taskLabel.innerText = 'Task';
+      taskForm.appendChild(taskLabel);
+      taskForm.appendChild(document.createElement('br'));
+
       const taskInput = document.createElement('input');
       taskInput.type = 'text';
-      taskInput.placeholder = 'Task';
+      taskInput.placeholder = 'Enter Task';
       taskInput.id = 'task';
       //taskInput.name = 'task';
       taskForm.appendChild(taskInput);
+      taskForm.appendChild(document.createElement('br'));
+
+      const projectLabel = document.createElement('label');
+      projectLabel.for = 'project';
+      projectLabel.innerText = 'Project';
+      taskForm.appendChild(projectLabel);
+      taskForm.appendChild(document.createElement('br'));
+
+      const projectInput = document.createElement('select');
+      projectInput.id = 'project';
+      taskForm.appendChild(projectInput);
+
+      const projectsToOptions = (array) => {
+        //create option elements for each item in the array
+        array.forEach((x) => {
+          const option = document.createElement('option');
+          option.innerText = `${x.name}`;
+          projectInput.appendChild(option);
+        });
+      };
+
+      projectsToOptions(pList);
+      taskForm.appendChild(document.createElement('br'));
+
+      const dateLabel = document.createElement('label');
+      dateLabel.for = 'date';
+      dateLabel.innerText = 'Timeframe';
+      taskForm.appendChild(dateLabel);
+      taskForm.appendChild(document.createElement('br'));
 
       const dateInput = document.createElement('input');
       dateInput.type = 'text';
-      dateInput.placeholder = 'Date (optional)';
+      dateInput.placeholder = 'Enter Timeframe';
       dateInput.id = 'date';
+      dateInput.name = 'date';
       taskForm.appendChild(dateInput);
+      taskForm.appendChild(document.createElement('br'));
+
+      const priorityLabel = document.createElement('label');
+      priorityLabel.for = 'priority';
+      priorityLabel.innerText = 'Priority Level';
+      taskForm.appendChild(priorityLabel);
+      taskForm.appendChild(document.createElement('br'));
+
+      const priorityInput = document.createElement('select');
+      priorityInput.id = 'priority';
+      taskForm.appendChild(priorityInput);
+
+      const normalPriority = document.createElement('option');
+      normalPriority.innerText = 'Normal Priority';
+      priorityInput.appendChild(normalPriority);
+      taskForm.appendChild(document.createElement('br'));
+
+      const mediumPriority = document.createElement('option');
+      mediumPriority.innerText = 'Medium Priority';
+      priorityInput.appendChild(mediumPriority);
+
+      const highPriority = document.createElement('option');
+      highPriority.innerText = 'High Priority';
+      priorityInput.appendChild(highPriority);
+
+      const descLabel = document.createElement('label');
+      descLabel.for = 'desc';
+      descLabel.innerText = 'Description';
+      taskForm.appendChild(descLabel);
+      taskForm.appendChild(document.createElement('br'));
+
+      const descInput = document.createElement('textarea');
+      descInput.id = 'desc';
+      descInput.name = 'desc';
+      descInput.rows = '5';
+      descInput.cols = '33';
+      descInput.placeholder = 'Enter Description';
+      taskForm.appendChild(descInput);
+      taskForm.appendChild(document.createElement('br'));
 
       const taskSubmit = document.createElement('button');
       taskSubmit.type = 'submit';
       taskSubmit.innerText = 'Add';
+      taskSubmit.id = 'submit';
       popup.appendChild(taskSubmit);
+      //taskSubmit.addEventListener('click', addTask);
     };
 
     //what list(s) to create
