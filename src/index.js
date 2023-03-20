@@ -203,6 +203,37 @@ const ScreenController = () => {
       addTaskButton.addEventListener('click', () => {
         console.log('add a task');
       });
+      //add task add popup
+
+      const popup = document.createElement('div');
+      popup.classList.add('popup');
+      popup.setAttribute('id', 'myForm');
+      taskContainer.appendChild(popup);
+      const taskForm = document.createElement('form');
+      //taskForm.action =
+      taskForm.classList.add('form-container');
+      popup.appendChild(taskForm);
+      // const taskLabel = document.createElement('label');
+      // taskLabel.for = 'task';
+      // taskLabel.innerText = 'Task';
+      //popup.appendChild(taskLabel);
+      const taskInput = document.createElement('input');
+      taskInput.type = 'text';
+      taskInput.placeholder = 'Task';
+      taskInput.id = 'task';
+      //taskInput.name = 'task';
+      taskForm.appendChild(taskInput);
+
+      const dateInput = document.createElement('input');
+      dateInput.type = 'text';
+      dateInput.placeholder = 'Date (optional)';
+      dateInput.id = 'date';
+      taskForm.appendChild(dateInput);
+
+      const taskSubmit = document.createElement('button');
+      taskSubmit.type = 'submit';
+      taskSubmit.innerText = 'Add';
+      popup.appendChild(taskSubmit);
     };
 
     //what list(s) to create
