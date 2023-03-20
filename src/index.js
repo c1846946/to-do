@@ -1,7 +1,5 @@
 import './style.css';
 import { ProjectFactory, ToDoFactory, projectList, toDoList } from './todos';
-const ShortUniqueId = require('short-unique-id');
-const uid = new ShortUniqueId({ length: 16 });
 
 //interaction
 ProjectFactory('home');
@@ -46,6 +44,22 @@ const ScreenController = () => {
     //pass selected project to update main
     selection = e.target.innerText;
     resetMain(selection);
+  };
+
+  const addTask = () => {
+    //evt.preventDefault();
+    const task = document.getElementById('task').value;
+    const project = document.getElementById('project').value;
+    const date = document.getElementById('date').value;
+    const priority = document.getElementById('priority').value;
+    const desc = document.getElementById('desc').value;
+    //enter parameters
+    ToDoFactory(task, project, desc, date, priority);
+    console.log(tList);
+    resetMain(selection);
+
+    // const form = document.getElementById("myForm");
+    // form.reset();
   };
 
   function updateMain(s) {
@@ -239,16 +253,19 @@ const ScreenController = () => {
       projectInput.id = 'project';
       taskForm.appendChild(projectInput);
 
-      const projectsToOptions = (array) => {
+      const projectsToOptions = (array, project) => {
         //create option elements for each item in the array
         array.forEach((x) => {
           const option = document.createElement('option');
           option.innerText = `${x.name}`;
+          if (x.name == project) {
+            option.selected = true;
+          }
           projectInput.appendChild(option);
         });
       };
 
-      projectsToOptions(pList);
+      projectsToOptions(pList, p);
       taskForm.appendChild(document.createElement('br'));
 
       const dateLabel = document.createElement('label');
@@ -308,7 +325,7 @@ const ScreenController = () => {
       taskSubmit.innerText = 'Add';
       taskSubmit.id = 'submit';
       popup.appendChild(taskSubmit);
-      //taskSubmit.addEventListener('click', addTask);
+      taskSubmit.addEventListener('click', addTask);
     };
 
     //what list(s) to create
