@@ -23,6 +23,7 @@ console.log(toDoList());
 
 const ScreenController = () => {
   const content = document.querySelector('.content');
+
   //state of main
   let selection = 'home';
   const pList = projectList();
@@ -60,6 +61,27 @@ const ScreenController = () => {
 
     // const form = document.getElementById("myForm");
     // form.reset();
+  };
+
+  const removePopup = () => {
+    //remove darken class
+    darkenDiv.classList.remove('darken');
+    //remove show popup class
+    const popup = document.querySelector('.popup');
+    popup.classList.remove('show-popup');
+  };
+
+  const darkenDiv = document.createElement('div');
+  darkenDiv.classList.add('darken-div');
+  content.appendChild(darkenDiv);
+  darkenDiv.addEventListener('click', removePopup);
+
+  const showPopup = () => {
+    //add .darken to darkenDiv
+    darkenDiv.classList.add('darken');
+    //add .show-popup to popup
+    const popup = document.querySelector('.popup');
+    popup.classList.add('show-popup');
   };
 
   function updateMain(s) {
@@ -215,9 +237,7 @@ const ScreenController = () => {
       addTaskButton.classList.add('add-task-button');
       addTaskButton.innerText = '+';
       taskContainer.appendChild(addTaskButton);
-      addTaskButton.addEventListener('click', () => {
-        console.log('add a task');
-      });
+      addTaskButton.addEventListener('click', showPopup);
 
       //add task add popup
       const popup = document.createElement('div');
@@ -359,8 +379,11 @@ const ScreenController = () => {
     sidebar.appendChild(instr);
   };
 
+  const displayPopup = () => {};
+
   projectSidebar();
   updateMain(selection);
+  displayPopup();
 
   return { updateMain };
 };
