@@ -8,7 +8,7 @@ ProjectFactory('test');
 ProjectFactory('butterf;y');
 ProjectFactory('Misc');
 
-ToDoFactory('test action', 'test');
+ToDoFactory('test action', 'test', '', '', '');
 ToDoFactory(
   'Wash the dishes',
   'home',
@@ -16,8 +16,8 @@ ToDoFactory(
   '03/11/1980',
   'high priority'
 );
-ToDoFactory('Buy shop towels', 'Hardware Store');
-ToDoFactory('Sweep the floor', 'home');
+ToDoFactory('Buy shop towels', 'Hardware Store', '', '', '');
+ToDoFactory('Sweep the floor', 'home', '', '', '');
 console.log(projectList());
 console.log(toDoList());
 
