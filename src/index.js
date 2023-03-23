@@ -25,7 +25,7 @@ const ScreenController = () => {
   const content = document.querySelector('.content');
 
   //state of main
-  let selection = 'home';
+  let selection = 'Home';
   const pList = projectList();
   const tList = toDoList();
   const activeTList = () => tList.filter((x) => x.remove == false || !x.remove);
@@ -284,7 +284,7 @@ const ScreenController = () => {
         // );
         resetMain(selection);
       } else if (e.target.classList.contains('checkbox')) {
-        console.log('contains checkbox');
+        return;
       } else if (e.target.classList.contains('edit-div')) return;
       else if (
         e.target
@@ -314,13 +314,16 @@ const ScreenController = () => {
       checkbox.setAttribute('data-task-id', z.taskId);
       checkbox.classList.add('checkbox');
       checkbox.addEventListener('change', function (e) {
+        const divToCross = e.target
+          .closest('.task-min')
+          .querySelector('.task-name');
         if (this.checked) {
-          checkbox.classList.add('task-checked');
+          divToCross.classList.add('task-checked');
           tList.find(
             (x) => x.taskId == e.target.dataset.taskId
           ).complete = true;
         } else {
-          checkbox.classList.remove('task-checked');
+          divToCross.classList.remove('task-checked');
           tList.find(
             (x) => x.taskId == e.target.dataset.taskId
           ).complete = false;

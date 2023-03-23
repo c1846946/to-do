@@ -36,6 +36,7 @@ html {
   padding: 8px 0px 8px 0px;
   display: flex;
   align-items: start;
+  
 }
 
 .task-name-date{
@@ -46,7 +47,7 @@ html {
 }
 
 .checkbox {
-  margin: 3px 0px 0px 0px;
+  margin: 4px 0px 0px 0px;
 }
 
 .task-name {
@@ -84,19 +85,28 @@ html {
 }
 
 .desc {
-  padding: 12px;
+  padding: 20px 26px 20px 26px;
+  color:rgb(72, 71, 71);
+  font-size: 15px;
 }
 
 .task-container {
   margin: 12px 0px 12px 0px;
   max-width: 650px;
+  display: flex;
+  flex-direction: column;
   
+  gap:6px;
   
   
 }
 
 .task {
   margin: 6px 0px 6px 0px;
+  padding: 10px 20px 10px 20px;
+  border: 1px rgb(102, 101, 101) solid;
+  border-radius: 16px;
+  box-shadow: 2px 2px 8px rgb(200, 197, 197);
 }
 
 .main {
@@ -170,7 +180,7 @@ button:active {
   font-size: 12px;
 }
 
-.task-checked+div {
+.task-checked {
   text-decoration: line-through;
 }
 
@@ -212,5 +222,9 @@ button:active {
   margin: 4px 0px 12px 0px;
   border: none;
   background-color: #cbdaed;
+}
+
+.add-task-button{
+  align-self: self-start;
 }
 
