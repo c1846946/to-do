@@ -2,7 +2,7 @@ import './style.css';
 import { ProjectFactory, ToDoFactory, projectList, toDoList } from './todos';
 
 //interaction
-ProjectFactory('home');
+ProjectFactory('Home');
 ProjectFactory('Hardware Store');
 ProjectFactory('test');
 ProjectFactory('butterf;y');
@@ -11,13 +11,13 @@ ProjectFactory('Misc');
 ToDoFactory('test action', 'test', '', '', '');
 ToDoFactory(
   'Wash the dishes',
-  'home',
+  'Home',
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-  '03/11/1980',
-  'high priority'
+  'Thursday',
+  'High priority'
 );
 ToDoFactory('Buy shop towels', 'Hardware Store', '', '', '');
-ToDoFactory('Sweep the floor', 'home', '', '', '');
+ToDoFactory('Sweep the floor', 'Home', '', '', '');
 console.log(projectList());
 console.log(toDoList());
 
@@ -69,6 +69,7 @@ const ScreenController = () => {
     //remove show popup class
     const popup = document.querySelector('.popup');
     popup.classList.remove('show-popup');
+    content.removeChild(popup);
   };
 
   const darkenDiv = document.createElement('div');
@@ -76,12 +77,174 @@ const ScreenController = () => {
   content.appendChild(darkenDiv);
   darkenDiv.addEventListener('click', removePopup);
 
-  const showPopup = () => {
+  const editTask = (e) => {
+    const taskToEdit = tList.find((x) => x.taskId == e.target.dataset.taskId);
+    //replace key/values with popup entries
+    taskToEdit.action = document.getElementById('task').value;
+    taskToEdit.project = document.getElementById('project').value;
+    taskToEdit.date = document.getElementById('date').value;
+    taskToEdit.priority = document.getElementById('priority').value;
+    taskToEdit.desc = document.getElementById('desc').value;
+
+    console.log('edit popup for', taskToEdit);
+  };
+
+  const showEditPopup = (e) => {
+    const taskToEdit = tList.find((x) => x.taskId == e.target.dataset.taskId);
+    showPopup(e);
+    //prefill existing values
+    document.getElementById('task').value = taskToEdit.action;
+    document.getElementById('project').value = taskToEdit.project;
+    document.getElementById('date').value = taskToEdit.date;
+    document.getElementById('priority').option = taskToEdit.priority;
+    document.getElementById('desc').value = taskToEdit.desc;
+
+    const createPopupEditButton = () => {
+      const popup = document.querySelector('.popup');
+      const taskSubmit = document.createElement('button');
+      taskSubmit.type = 'submit';
+      taskSubmit.innerText = 'Save';
+      taskSubmit.id = 'submit';
+      popup.appendChild(taskSubmit);
+      taskSubmit.addEventListener('click', () => {
+        editTask(e);
+        removePopup();
+        resetMain(selection);
+      });
+    };
+
+    createPopupEditButton();
+  };
+
+  const showAddPopup = (e) => {
+    showPopup(e);
+    const createPopupButton = () => {
+      const popup = document.querySelector('.popup');
+      const taskSubmit = document.createElement('button');
+      taskSubmit.type = 'submit';
+      taskSubmit.innerText = 'Add';
+      taskSubmit.id = 'submit';
+      popup.appendChild(taskSubmit);
+      taskSubmit.addEventListener('click', () => {
+        addTask();
+        removePopup();
+        resetMain(selection);
+      });
+    };
+
+    createPopupButton();
+  };
+
+  const showPopup = (e) => {
     //add .darken to darkenDiv
     darkenDiv.classList.add('darken');
+
+    createPopup(e);
     //add .show-popup to popup
     const popup = document.querySelector('.popup');
     popup.classList.add('show-popup');
+  };
+
+  const createPopup = (e) => {
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    popup.setAttribute('id', 'myForm');
+    content.appendChild(popup);
+
+    const taskForm = document.createElement('form');
+    taskForm.classList.add('form-container');
+    popup.appendChild(taskForm);
+
+    const taskLabel = document.createElement('label');
+    taskLabel.for = 'task';
+    taskLabel.innerText = 'Task';
+    taskForm.appendChild(taskLabel);
+    taskForm.appendChild(document.createElement('br'));
+
+    const taskInput = document.createElement('input');
+    taskInput.type = 'text';
+    taskInput.placeholder = 'Enter Task';
+    taskInput.id = 'task';
+    //taskInput.name = 'task';
+    taskForm.appendChild(taskInput);
+    taskForm.appendChild(document.createElement('br'));
+
+    const projectLabel = document.createElement('label');
+    projectLabel.for = 'project';
+    projectLabel.innerText = 'Project';
+    taskForm.appendChild(projectLabel);
+    taskForm.appendChild(document.createElement('br'));
+
+    const projectInput = document.createElement('select');
+    projectInput.id = 'project';
+    taskForm.appendChild(projectInput);
+
+    const projectsToOptions = (e, array) => {
+      //create option elements for each item in the array
+      array.forEach((x) => {
+        const option = document.createElement('option');
+        option.innerText = `${x.name}`;
+        if (x.name == e.target.dataset.project) {
+          option.selected = true;
+        }
+        projectInput.appendChild(option);
+      });
+    };
+
+    projectsToOptions(e, pList);
+    taskForm.appendChild(document.createElement('br'));
+
+    const dateLabel = document.createElement('label');
+    dateLabel.for = 'date';
+    dateLabel.innerText = 'Timeframe';
+    taskForm.appendChild(dateLabel);
+    taskForm.appendChild(document.createElement('br'));
+
+    const dateInput = document.createElement('input');
+    dateInput.type = 'text';
+    dateInput.placeholder = 'Enter Timeframe';
+    dateInput.id = 'date';
+    dateInput.name = 'date';
+    taskForm.appendChild(dateInput);
+    taskForm.appendChild(document.createElement('br'));
+
+    const priorityLabel = document.createElement('label');
+    priorityLabel.for = 'priority';
+    priorityLabel.innerText = 'Priority Level';
+    taskForm.appendChild(priorityLabel);
+    taskForm.appendChild(document.createElement('br'));
+
+    const priorityInput = document.createElement('select');
+    priorityInput.id = 'priority';
+    taskForm.appendChild(priorityInput);
+
+    const normalPriority = document.createElement('option');
+    normalPriority.innerText = 'Normal Priority';
+    priorityInput.appendChild(normalPriority);
+    taskForm.appendChild(document.createElement('br'));
+
+    const mediumPriority = document.createElement('option');
+    mediumPriority.innerText = 'Medium Priority';
+    priorityInput.appendChild(mediumPriority);
+
+    const highPriority = document.createElement('option');
+    highPriority.innerText = 'High Priority';
+    priorityInput.appendChild(highPriority);
+
+    const descLabel = document.createElement('label');
+    descLabel.for = 'desc';
+    descLabel.innerText = 'Description';
+    taskForm.appendChild(descLabel);
+    taskForm.appendChild(document.createElement('br'));
+
+    const descInput = document.createElement('textarea');
+    descInput.id = 'desc';
+    descInput.name = 'desc';
+    descInput.rows = '5';
+    descInput.cols = '33';
+    descInput.placeholder = 'Enter Description';
+    taskForm.appendChild(descInput);
+    taskForm.appendChild(document.createElement('br'));
   };
 
   function updateMain(s) {
@@ -122,7 +285,8 @@ const ScreenController = () => {
         resetMain(selection);
       } else if (e.target.classList.contains('checkbox')) {
         console.log('contains checkbox');
-      } else if (
+      } else if (e.target.classList.contains('edit-div')) return;
+      else if (
         e.target
           .closest('.task')
           .querySelector('.expand')
@@ -190,6 +354,13 @@ const ScreenController = () => {
       priorityDiv.innerText = z.priority;
       priorityDelete.appendChild(priorityDiv);
 
+      const editDiv = document.createElement('button');
+      editDiv.classList.add('edit-div');
+      editDiv.setAttribute('data-task-id', z.taskId);
+      editDiv.innerText = 'edit';
+      priorityDelete.appendChild(editDiv);
+      editDiv.addEventListener('click', showEditPopup);
+
       const deleteDiv = document.createElement('button');
       deleteDiv.classList.add('delete-div');
       deleteDiv.setAttribute('data-task-id', z.taskId);
@@ -236,119 +407,9 @@ const ScreenController = () => {
       const addTaskButton = document.createElement('button');
       addTaskButton.classList.add('add-task-button');
       addTaskButton.innerText = '+';
+      addTaskButton.setAttribute('data-project', p);
       taskContainer.appendChild(addTaskButton);
-      addTaskButton.addEventListener('click', showPopup);
-
-      //add task add popup
-      const popup = document.createElement('div');
-      popup.classList.add('popup');
-      popup.setAttribute('id', 'myForm');
-      taskContainer.appendChild(popup);
-
-      const taskForm = document.createElement('form');
-      taskForm.classList.add('form-container');
-      popup.appendChild(taskForm);
-
-      const taskLabel = document.createElement('label');
-      taskLabel.for = 'task';
-      taskLabel.innerText = 'Task';
-      taskForm.appendChild(taskLabel);
-      taskForm.appendChild(document.createElement('br'));
-
-      const taskInput = document.createElement('input');
-      taskInput.type = 'text';
-      taskInput.placeholder = 'Enter Task';
-      taskInput.id = 'task';
-      //taskInput.name = 'task';
-      taskForm.appendChild(taskInput);
-      taskForm.appendChild(document.createElement('br'));
-
-      const projectLabel = document.createElement('label');
-      projectLabel.for = 'project';
-      projectLabel.innerText = 'Project';
-      taskForm.appendChild(projectLabel);
-      taskForm.appendChild(document.createElement('br'));
-
-      const projectInput = document.createElement('select');
-      projectInput.id = 'project';
-      taskForm.appendChild(projectInput);
-
-      const projectsToOptions = (array, project) => {
-        //create option elements for each item in the array
-        array.forEach((x) => {
-          const option = document.createElement('option');
-          option.innerText = `${x.name}`;
-          if (x.name == project) {
-            option.selected = true;
-          }
-          projectInput.appendChild(option);
-        });
-      };
-
-      projectsToOptions(pList, p);
-      taskForm.appendChild(document.createElement('br'));
-
-      const dateLabel = document.createElement('label');
-      dateLabel.for = 'date';
-      dateLabel.innerText = 'Timeframe';
-      taskForm.appendChild(dateLabel);
-      taskForm.appendChild(document.createElement('br'));
-
-      const dateInput = document.createElement('input');
-      dateInput.type = 'text';
-      dateInput.placeholder = 'Enter Timeframe';
-      dateInput.id = 'date';
-      dateInput.name = 'date';
-      taskForm.appendChild(dateInput);
-      taskForm.appendChild(document.createElement('br'));
-
-      const priorityLabel = document.createElement('label');
-      priorityLabel.for = 'priority';
-      priorityLabel.innerText = 'Priority Level';
-      taskForm.appendChild(priorityLabel);
-      taskForm.appendChild(document.createElement('br'));
-
-      const priorityInput = document.createElement('select');
-      priorityInput.id = 'priority';
-      taskForm.appendChild(priorityInput);
-
-      const normalPriority = document.createElement('option');
-      normalPriority.innerText = 'Normal Priority';
-      priorityInput.appendChild(normalPriority);
-      taskForm.appendChild(document.createElement('br'));
-
-      const mediumPriority = document.createElement('option');
-      mediumPriority.innerText = 'Medium Priority';
-      priorityInput.appendChild(mediumPriority);
-
-      const highPriority = document.createElement('option');
-      highPriority.innerText = 'High Priority';
-      priorityInput.appendChild(highPriority);
-
-      const descLabel = document.createElement('label');
-      descLabel.for = 'desc';
-      descLabel.innerText = 'Description';
-      taskForm.appendChild(descLabel);
-      taskForm.appendChild(document.createElement('br'));
-
-      const descInput = document.createElement('textarea');
-      descInput.id = 'desc';
-      descInput.name = 'desc';
-      descInput.rows = '5';
-      descInput.cols = '33';
-      descInput.placeholder = 'Enter Description';
-      taskForm.appendChild(descInput);
-      taskForm.appendChild(document.createElement('br'));
-
-      const taskSubmit = document.createElement('button');
-      taskSubmit.type = 'submit';
-      taskSubmit.innerText = 'Add';
-      taskSubmit.id = 'submit';
-      popup.appendChild(taskSubmit);
-      taskSubmit.addEventListener('click', () => {
-        addTask();
-        removePopup();
-      });
+      addTaskButton.addEventListener('click', showAddPopup);
     };
 
     //what list(s) to create
@@ -375,11 +436,6 @@ const ScreenController = () => {
     all.innerText = allProjectsText;
     sidebar.appendChild(all);
     all.addEventListener('click', selectProject);
-
-    const instr = document.createElement('div');
-    instr.classList.add('instr');
-    instr.innerText = 'Instructions \n-tap task to expand or collapse';
-    sidebar.appendChild(instr);
   };
 
   const displayPopup = () => {};
