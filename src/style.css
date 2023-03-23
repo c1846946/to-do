@@ -1,5 +1,5 @@
 :root {
-  --sidebar-gray: rgb(204, 198, 198);
+  --sidebar-gray: rgb(104, 102, 102);
 }
 
 *,
@@ -128,7 +128,7 @@ html {
 }
 
 .sidebar {
-  background-color: rgb(204, 198, 198);
+  background-color: var(--sidebar-gray);
   height:100vh;
   flex-basis: 25%;
   max-width: 320px;
